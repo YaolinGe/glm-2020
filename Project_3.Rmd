@@ -1,0 +1,98 @@
+---
+author: $\overset{\mathrm{martin.o.berild@ntnu.no}}{10014}$ \and
+        $\overset{\mathrm{yaolin.ge@ntnu.no}}{10026}$
+date: \today
+title: "Project 3 - TMA4315"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+defaultW <- getOption("warn") 
+options(warn = -1) 
+```
+
+## Problem 1 
+
+#### a)
+It can be shown as 
+Assume data $(y_{ij}, x_{ij}^T)$ for $i = 1, 2, ..., m, j = 1, 2, ..., n_i$
+
+
+$$
+y_{ij} = x_{ij}^T\beta + u_{ij}^T\gamma_i + \epsilon_{ij}
+$$
+By applying the random intercept slope model
+
+$$
+y_{ij} = \begin{bmatrix} 1 & x_{ij}\end{bmatrix} \begin{bmatrix} \beta_0 \\ \beta_1\end{bmatrix} + \begin{bmatrix} 1 & x_{ij}\end{bmatrix} \begin{bmatrix} \gamma_{0, i} \\ \gamma_{1, i}\end{bmatrix} + \epsilon_{ij}
+$$
+Letting
+
+$$
+y_i = \begin{bmatrix} y_{i1} \\ y_{i2} \\ $\vdots$ \\ y_{in_i} \end{bmatrix}, \ \ x_i = \begin{bmatrix} x_{i1}^T \\ x_{i2}^T \\ \vdots \\ x_{in_i}^T \end{bmatrix}, \ \ U_i = \begin{bmatrix} u_{i1}^T \\ u_{i2}^T \\ \vdots \\ u_{in_i}^T \end{bmatrix}, \ \ \epsilon_i = \begin{bmatrix} \epsilon_{i1} \\ \epsilon_{i2} \\ $\vdots$ \\ \epsilon_{in_i} \end{bmatrix}
+$$
+
+
+
+The the model is (for cluster $i = 1, 2, \cdots, m$):
+$$
+y_i = X_i\beta + U_i\gamma_i + \epsilon_i, \ \ \gamma_i \sim \mathcal{N(0, Q)}
+$$
+
+
+The marginal model is then
+
+$$
+y_i \sim \mathcal{N}(X_i \beta,\ \  U_iQU_I^T + \sigma^2I_{n_i})
+$$
+
+Conditional model is
+$$
+
+y_i|\gamma_i \sim \mathcal{N}(X_i\beta + U_i\gamma_i, \ \ \sigma^2I_{n_i})
+$$
+
+<!-- Letting -->
+<!-- $$ -->
+
+<!-- y = \begin{bmatrix} y_{1} \\ y_{2} \\ $\vdots$ \\ y_{m} \end{bmatrix}, \ \ X = \begin{bmatrix} X_{1}^T \\ X_{2}^T \\ $\vdots$ \\ X_{m}^T \end{bmatrix}, \ \ \gamma = \begin{bmatrix} \gamma_{1}^T \\ \gamma_{2}^T \\ $\vdots$ \\ \gamma_{m}^T \end{bmatrix}, \ \ \epsilon = \begin{bmatrix} \epsilon_{1} \\ \epsilon_{2} \\ $\vdots$ \\ \epsilon_{m} \end{bmatrix} -->
+
+<!-- $$ -->
+
+<!-- Then the whole model is -->
+
+<!-- $$ -->
+<!-- y = X\beta + U\gamma + \epsilon, \ \ \epsilon \sim \mathcal{N}(0, \sigma^2 I_{n_i}) -->
+<!-- $$ -->
+
+We are interested in computing the maximum likelihood and restricted maximum likelihood estimates of the parameters in the linear mixed model 
+
+$$
+y_{ij} = \beta_0 + \beta_1x_{ij} + \gamma_{0,i} + \gamma_{1,i}x_{ij} + \epsilon_{ij},
+$$
+where $\boldsymbol{\gamma}_i = (\gamma_{0,i},\gamma_{1,i})$ are iid binomially distributed with zero mean and covariance matrix
+
+$$
+\begin{bmatrix}
+\tau_0^2 & \tau_{01} \\
+\tau_{01} & \tau_{1}^2
+\end{bmatrix},
+$$
+and $\epsilon_{ij}$ are idd Guassian distributed with zero mean and variance $\sigma^2$ for $i = 1,\dots,m$ and $j=1,\dots,n$. Thus, we are interested in obtaining the estimates of $(\beta_0,\beta_1,\tau_0^2,\tau_1^2,\tau_{01},\sigma^2)$. 
+
+
+## Problem 2
+
+Next, we are interested in modelling the 2018 results of the Norwegian elite football league using a generalized linear mixed model. First we load the data and display the contents.
+
+```{r dataload}
+long <- read.csv("https://www.math.ntnu.no/emner/TMA4315/2020h/eliteserie.csv", colClasses = c("factor","factor","factor","numeric"))
+head(long)
+```
+
+
+
+```{r endup, include=FALSE}
+options(warn = defaultW)
+```

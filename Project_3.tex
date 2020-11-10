@@ -1,0 +1,189 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Project 3 - TMA4315},
+  pdfauthor={\textbackslash overset\{\textbackslash mathrm\{martin.o.berild@ntnu.no\}\}\{10014\} \textbackslash overset\{\textbackslash mathrm\{yaolin.ge@ntnu.no\}\}\{10026\}},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Project 3 - TMA4315}
+\author{\(\overset{\mathrm{martin.o.berild@ntnu.no}}{10014}\)
+\and \(\overset{\mathrm{yaolin.ge@ntnu.no}}{10026}\)}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1}{%
+\subsection{Problem 1}\label{problem-1}}
+
+\hypertarget{a}{%
+\paragraph{a)}\label{a}}
+
+It can be shown as Assume data \((y_{ij}, x_{ij}^T)\) for
+\(i = 1, 2, ..., m, j = 1, 2, ..., n_i\)
+
+\[
+y_{ij} = x_{ij}^T\beta + u_{ij}^T\gamma_i + \epsilon_{ij}
+\] By applying the random intercept slope model
+
+\[
+y_{ij} = \begin{bmatrix} 1 & x_{ij}\end{bmatrix} \begin{bmatrix} \beta_0 \\ \beta_1\end{bmatrix} + \begin{bmatrix} 1 & x_{ij}\end{bmatrix} \begin{bmatrix} \gamma_{0, i} \\ \gamma_{1, i}\end{bmatrix} + \epsilon_{ij}
+\] Letting
+
+\[
+y_i = \begin{bmatrix} y_{i1} \\ y_{i2} \\ $\vdots$ \\ y_{in_i} \end{bmatrix}, \ \ x_i = \begin{bmatrix} x_{i1}^T \\ x_{i2}^T \\ \vdots \\ x_{in_i}^T \end{bmatrix}, \ \ U_i = \begin{bmatrix} u_{i1}^T \\ u_{i2}^T \\ \vdots \\ u_{in_i}^T \end{bmatrix}, \ \ \epsilon_i = \begin{bmatrix} \epsilon_{i1} \\ \epsilon_{i2} \\ $\vdots$ \\ \epsilon_{in_i} \end{bmatrix}
+\]
+
+The the model is (for cluster \(i = 1, 2, \cdots, m\)): \[
+y_i = X_i\beta + U_i\gamma_i + \epsilon_i, \ \ \gamma_i \sim \mathcal{N(0, Q)}
+\]
+
+The marginal model is then
+
+\[
+y_i \sim \mathcal{N}(X_i \beta,\ \  U_iQU_I^T + \sigma^2I_{n_i})
+\]
+
+Conditional model is \$\$
+
+y\_i\textbar{}\gamma\_i \sim \mathcal{N}(X\_i\beta + U\_i\gamma\emph{i,
+~~\sigma\^{}2I}\{n\_i\}) \$\$
+
+We are interested in computing the maximum likelihood and restricted
+maximum likelihood estimates of the parameters in the linear mixed model
+
+\[
+y_{ij} = \beta_0 + \beta_1x_{ij} + \gamma_{0,i} + \gamma_{1,i}x_{ij} + \epsilon_{ij},
+\] where \(\boldsymbol{\gamma}_i = (\gamma_{0,i},\gamma_{1,i})\) are iid
+binomially distributed with zero mean and covariance matrix
+
+\[
+\begin{bmatrix}
+\tau_0^2 & \tau_{01} \\
+\tau_{01} & \tau_{1}^2
+\end{bmatrix},
+\] and \(\epsilon_{ij}\) are idd Guassian distributed with zero mean and
+variance \(\sigma^2\) for \(i = 1,\dots,m\) and \(j=1,\dots,n\). Thus,
+we are interested in obtaining the estimates of
+\((\beta_0,\beta_1,\tau_0^2,\tau_1^2,\tau_{01},\sigma^2)\).
+
+\hypertarget{problem-2}{%
+\subsection{Problem 2}\label{problem-2}}
+
+Next, we are interested in modelling the 2018 results of the Norwegian
+elite football league using a generalized linear mixed model. First we
+load the data and display the contents.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{long <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"https://www.math.ntnu.no/emner/TMA4315/2020h/eliteserie.csv"}\NormalTok{, }\DataTypeTok{colClasses =} \KeywordTok{c}\NormalTok{(}\StringTok{"factor"}\NormalTok{,}\StringTok{"factor"}\NormalTok{,}\StringTok{"factor"}\NormalTok{,}\StringTok{"numeric"}\NormalTok{))}
+\KeywordTok{head}\NormalTok{(long)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               attack            defence home goals
+## 1              Molde Sandefjord_Fotball  yes     5
+## 2 Sandefjord_Fotball              Molde   no     0
+## 3      Stroemsgodset            Stabaek  yes     2
+## 4            Stabaek      Stroemsgodset   no     2
+## 5                Odd          Haugesund  yes     1
+## 6          Haugesund                Odd   no     2
+\end{verbatim}
+
+\end{document}
