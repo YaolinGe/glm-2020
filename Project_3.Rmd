@@ -1,0 +1,192 @@
+---
+author: $\overset{\mathrm{martin.o.berild@ntnu.no}}{10014}$ \and
+        $\overset{\mathrm{yaolin.ge@ntnu.no}}{10026}$
+date: \today
+title: "Project 3 - TMA4315"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+defaultW <- getOption("warn") 
+options(warn = -1) 
+```
+
+## Problem 1 
+
+#### a)
+It can be shown that the matrix formulation has two steps. First, the measurement model can be rewritten as follows:
+
+$$
+y_{ij} = \mathbf{x}_{ij}^T\boldsymbol{\beta} + \mathbf{u}_{ij}^T\boldsymbol{\gamma_i} + \epsilon_{ij}
+$$
+In this case, 
+
+$$
+\mathbf{x}_{ij} = \begin{bmatrix} 1 \\ x_{ij}  \end{bmatrix}; \ \ \mathbf{u}_{ij} = \begin{bmatrix} 1 \\ x_{ij}  \end{bmatrix}; \ \ 
+\boldsymbol{\beta} = \begin{bmatrix} \beta_0 \\ \beta_1  \end{bmatrix}; \ \ 
+\boldsymbol{\gamma}_i = \begin{bmatrix} \gamma_{0, i} \\ \gamma_{1, i}  \end{bmatrix}
+$$
+By collecting all individual- and cluster-specific responses $y_{ij}$, design vectors $\mathbf{x}_{ij}, \mathbf{u}_{ij}$ and errors $\epsilon_{ij}, j = 1, \cdots, n_i$ into vectors, then it becomes:
+
+$$
+\mathbf{y}_i = \begin{pmatrix} y_{i1} \\ \vdots \\ y_{ij} \\ \vdots \\ y_{in_i}  \end{pmatrix}; \ \ 
+\mathbf{X}_i = \begin{pmatrix} \boldsymbol{x}_{i1}^{T} \\ \vdots \\ \boldsymbol{x}_{ij}^{T} \\ \vdots \\ \boldsymbol{x}_{in_i}^{T}  \end{pmatrix}; \ \ 
+\mathbf{U}_i = \begin{pmatrix} \boldsymbol{u}_{i1}^{T} \\ \vdots \\ \boldsymbol{u}_{ij}^{T} \\ \vdots \\ \boldsymbol{u}_{in_i}^{T}  \end{pmatrix}; \ \ 
+\boldsymbol{\epsilon}_i = \begin{pmatrix} \epsilon_{i1} \\ \vdots \\ \epsilon_{ij} \\ \vdots \\ \epsilon_{in_i} \end{pmatrix} \ \ 
+$$
+
+Thus, the measurement model in matrix notation is 
+
+$$
+\boldsymbol{y}_i = \boldsymbol{X}_i\boldsymbol{\beta} + \boldsymbol{U_i}\boldsymbol{\gamma_i} + \boldsymbol{\epsilon_i}, \ \ i = 1, \cdots, m
+$$
+Given that 
+$$
+\boldsymbol{\gamma}_i \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{Q}); \ \ 
+\boldsymbol{\epsilon}_i \sim \mathcal{N}(\boldsymbol{0}, \sigma^2\boldsymbol{I_{n_i}})
+$$
+Thus, squeeze the above LMM model by defining the design matrices as follows:
+
+
+$$
+\boldsymbol{y} = \begin{pmatrix} \boldsymbol{y}_1 \\ \vdots \\ \boldsymbol{y}_i\\ \vdots \\ \boldsymbol{y}_m \end{pmatrix}; \ \ 
+\boldsymbol{\epsilon} = \begin{pmatrix} \boldsymbol{\epsilon}_1 \\ \vdots \\ \boldsymbol{\epsilon}_i\\ \vdots \\ \boldsymbol{\epsilon}_m \end{pmatrix}; \ \ 
+\boldsymbol{\gamma} = \begin{pmatrix} \boldsymbol{\gamma}_1 \\ \vdots \\ \boldsymbol{\gamma}_i\\ \vdots \\ \boldsymbol{\gamma}_m \end{pmatrix}; \ \ 
+$$
+
+<!-- $$ -->
+<!-- \boldsymbol{X} = \begin{pmatrix} \boldsymbol{X}_1 \\ \vdots \\ \boldsymbol{X}_i \\ \vdots \\ \boldsymbol{X}_m\end{pmatrix}; \ \  -->
+<!-- \boldsymbol{U} = \begin{pmatrix} \boldsymbol{U}_1 & & & \boldsymbol{0} \\ -->
+<!-- & \ddots & & & \\ -->
+<!-- & & \boldsymbol{U}_i & & \\  -->
+<!-- & & & \ddots & \\ -->
+<!-- \boldsymbol{0} & & & \boldsymbol{U}_m -->
+<!-- \end{pmatrix} -->
+<!-- $$ -->
+Therefore, the LMM can be rewritten as
+
+$$
+\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{U}\boldsymbol{\gamma} + \boldsymbol{\epsilon}
+$$
+
+```{r mylmm}
+mylmm <- function(y, x, group, REML = FALSE){
+    # print("hello world")
+    # print(group)
+    n_groups <- nlevels(group)
+    n_total <- length(y)
+    # print(n_total)
+    
+    # generate the design matrix
+    U <- list()
+    for (i in levels(group)) {
+      U[[i]] <- cbind(1,x[group==i])
+    }
+    U <- bdiag(U)
+    X <- cbind(1, x)
+    Y <- y
+    
+    lp <- function(var){
+        tau0 <- var[1]
+        tau1 <- var[2]
+        tau01 <- var[3]
+        sigma <- var[4]
+        
+        R <- diag(sigma, nrow = n_total)
+        
+        Q <- matrix(c(tau0, tau01, tau01, tau1), nrow = 2, byrow = TRUE)
+        
+        for (i in c(1:nlevels(groups))){
+            if (i == 1){
+                G = Q
+            }
+            else{
+                G <- bdiag(G,Q)
+            }
+        }
+
+        V <- U %*% G %*% t(U) + R # variance matrix
+        
+        Beta <- solve(t(X) %*% solve(V) %*% X) %*% t(X) %*% solve(V) %*% Y # Estimated parameters
+        
+        if (REML == TRUE){
+            lp <- - 1 / 2 * (log(det(V)) + t(Y - X %*% Beta) %*% solve(V) %*% (Y - X %*% Beta)) - 1 / 2 * (log(det(t(X) %*% solve(V) %*% X)))     # restricted log likelihood
+        }
+        else {
+            lp <- - 1 / 2 * (log(det(V)) + t(Y - X %*% Beta) %*% solve(V) %*% (Y - X %*% Beta)) # profile log likelihood
+        }
+
+    return(as.vector(lp))
+    }
+    
+    var <- optim(par = c(2,0,1,1), lp, control = list(fnscale = -1))$par
+    # print(var)
+    tau0 <- var[1]
+    tau1 <- var[2]
+    tau01 <- var[3]
+    sigma <- var[4]
+    
+    R <- diag(sigma, nrow = n_total)
+    
+    Q <- matrix(c(tau0, tau01, tau01, tau1), nrow = 2, byrow = TRUE)
+    
+    for (i in c(1:nlevels(groups))){
+        if (i == 1){
+            G = Q
+        }
+        else{
+            G <- bdiag(G,Q)
+        }
+    }
+
+    V <- U %*% G %*% t(U) + R # variance matrix
+    
+    Beta <- solve(t(X) %*% solve(V) %*% X) %*% t(X) %*% solve(V) %*% Y # Estimated parameters
+    # print(as.vector(Beta))
+    # print(var)
+    return(c(as.vector(Beta), var))
+}
+
+```
+
+# 1.c
+```{r test function}
+
+library(lme4)
+attach(sleepstudy)
+sleepstudy
+mod <- lmer(Reaction ~ 1 + Days + (1 + Days|Subject), REML = FALSE, data = sleepstudy)
+summary(mod)
+fixef(mod)
+ranef(mod)
+
+mod_reml <- lmer(Reaction ~ 1 + Days + (1 + Days|Subject), REML = TRUE, data = sleepstudy)
+summary(mod_reml)
+fixef(mod_reml)
+ranef(mod_reml)
+# summary(sleepstudy)
+# str(sleepstudy)
+
+mylmm_coef <- mylmm(Reaction, Days, Subject, REML = FALSE)
+print(mylmm_coef)
+
+detach(sleepstudy)
+```
+
+
+
+## Problem 2
+
+<!-- Next, we are interested in modelling the 2018 results of the Norwegian elite football league using a generalized linear mixed model. First we load the data and display the contents. -->
+
+<!-- ```{r dataload} -->
+<!-- long <- read.csv("https://www.math.ntnu.no/emner/TMA4315/2020h/eliteserie.csv", colClasses = c("factor","factor","factor","numeric")) -->
+<!-- head(long) -->
+<!-- ``` -->
+
+
+
+<!-- ```{r endup, include=FALSE} -->
+<!-- options(warn = defaultW) -->
+<!-- ``` -->
